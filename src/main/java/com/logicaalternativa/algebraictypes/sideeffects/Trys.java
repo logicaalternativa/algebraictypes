@@ -26,8 +26,8 @@ public class Trys {
             Function<? super T, ? extends Try<U>>  f ) {
         
         return switch( from ) {
-            case Try.Success( var value ) -> executeF( f, value );
-            case Try.Failure( var e ) -> failed( e ) ;
+            case Try.Success<T>( var value ) -> executeF( f, value );
+            case Try.Failure<T>( var e ) -> failed( e ) ;
         };
     }
     
@@ -37,7 +37,7 @@ public class Trys {
         
         return switch( from ) {
             case Try.Success<T> s -> s;
-            case Try.Failure( var e ) -> executeF( f, e ) ;
+            case Try.Failure<T>( var e ) -> executeF( f, e ) ;
         };
     }
     
@@ -99,7 +99,7 @@ public class Trys {
                 Function<? super Throwable, ? extends T>  f ) {
             return new TryWrap<>( Trys.recover( tryValue, f ) );
         }
-        
+
     }
 
 }
