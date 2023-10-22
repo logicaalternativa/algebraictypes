@@ -20,6 +20,7 @@ public class Trys {
     public static <T> Try<T> failed( final Throwable error ) {
         return new Try.Failure<>( error ) ;
     }  
+    
     public static <T,U> Try<U> flatMap( 
             Try<T> from, 
             Function<? super T, ? extends Try<U>>  f ) {
@@ -28,13 +29,29 @@ public class Trys {
             case Try.Success( var value ) -> executeF( f, value );
             case Try.Failure( var e ) -> failed( e ) ;
         };
-    }   
+    }
+    
+    public static <T> Try<T> recoverWith( 
+            Try<T> from, 
+            Function<? super Throwable, ? extends Try<T>>  f ) {
+        
+        return switch( from ) {
+            case Try.Success<T> s -> s;
+            case Try.Failure( var e ) -> executeF( f, e ) ;
+        };
+    }
     
     public static <T,U> Try<U> map( 
             Try<T> from, 
             Function<? super T, ? extends U>  f ) {
         
         return flatMap(from, s -> of( () -> f.apply(s) ) );
+    }
+    
+    public static <T> Try<T> recover( 
+            Try<T> from, 
+            Function<? super Throwable, ? extends T>  f ) {
+        return recoverWith( from, e -> of( () -> f.apply(e) ) );
     }
     
     private static <T,U> Try<U> executeF( 
@@ -65,12 +82,22 @@ public class Trys {
         
         public <U> TryWrap<U> flatMap( 
             Function<? super T, ? extends Try<U>>  f )  {
-            return new TryWrap( Trys.flatMap( tryValue, f ) );
+            return new TryWrap<>( Trys.flatMap( tryValue, f ) );
         }
         
         public <U> TryWrap<U> map( 
             Function<? super T, ? extends U>  f )  {
-            return new TryWrap( Trys.map( tryValue, f ) );
+            return new TryWrap<>( Trys.map( tryValue, f ) );
+        }
+        
+        public TryWrap<T> recoverWith( 
+            Function<? super Throwable, ? extends Try<T>>  f ) {
+            return new TryWrap<>( Trys.recoverWith( tryValue, f ) );
+        }
+    
+        public TryWrap<T> recover( 
+                Function<? super Throwable, ? extends T>  f ) {
+            return new TryWrap<>( Trys.recover( tryValue, f ) );
         }
         
     }

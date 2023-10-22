@@ -86,6 +86,18 @@ public class ExampleTryTest {
 
         assertTrue(checkMapped, "Error with ArithmeticException");
 
+        final var failedRecovered = Trys.wrap( tryFailed )
+            .recover( s -> 1 )
+            .get();
+
+        final var checkRecovered = switch( failedRecovered ) {
+            case Try.Success( var value  ) when value == 1 -> true;
+            case Try.Success s  -> false;
+            case Try.Failure e ->  false;
+        };
+
+        assertTrue(checkRecovered, "Value from recover should be 1");
+
     }
     
 }

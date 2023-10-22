@@ -43,7 +43,7 @@ public class Options {
     
      public static <T extends Serializable> Optional<T> toOptional( final Option<T> op ) {
         return switch ( op ) {
-            case Option.None l -> Optional.empty();
+            case Option.None<T> l -> Optional.empty();
             case Option.Some<T>( var value ) -> Optional.of( value );
         };
     }
@@ -54,7 +54,7 @@ public class Options {
        
         return switch ( op ) {
             case Option.Some<T>(var value) -> value;
-            case Option.None l ->  supplier.get();
+            case Option.None<T> l ->  supplier.get();
        };
         
     } 
