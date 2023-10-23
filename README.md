@@ -10,3 +10,7 @@ ADT in Java are:
 - Pattern Matching
 
 This repo contains use case examples as DSLs (Domain Specific Languages), data structures as Immutable Collections, or side effects as Option or Try.
+
+## Slides 
+
+ - [https://www.logicaalternativa.com/slides/algebraic-data-types](https://www.logicaalternativa.com/slides/algebraic-data-types) (Spanish)
