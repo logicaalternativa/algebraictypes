@@ -13,4 +13,4 @@ This repo contains use case examples as DSLs (Domain Specific Languages), data s
 
 ## Slides 
 
- - [https://www.logicaalternativa.com/slides/algebraic-data-types](https://www.logicaalternativa.com/slides/algebraic-data-types) (Spanish)
+ - [https://www.logicaalternativa.com/slides/data-java21](https://www.logicaalternativa.com/slides/data-java21) (Spanish)
